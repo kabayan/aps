@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  meilisearch:
+    image: getmeili/meilisearch:prototype-japanese-13
+    ports:
+      - 7700:7700
+    environment:
+      - MEILI_ENV=development
+      - MEILI_MASTER_KEY=aSampleMasterKey
+    volumes:
+      - /home/aps/workspace/aps/datas/meili_data:/meili_data
+    hostname: meliserver
+    networks:
+      - apsnetwork
+
+  ollama:
+    image: ollama/ollama
+    ports:
+      - 11434:11434
+    volumes:
+      - ollama:/root/.ollama
+    hostname: ollama
+    networks:
+      - apsnetwork
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  aps:
+    build: .  # Assumes Dockerfile is in the same directory
+    ports:
+      - 7860:7860
+    volumes:
+      - /home/aps/workspace/aps:/root/workspace
+      - /home/aps/workspace/aps/models:/models
+    networks:
+      - apsnetwork
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    command: ["/bin/sh", "-c", "/usr/local/bin/wait-for-ollama.sh && exec python3 aps.py"]
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+
+networks:
+  apsnetwork:
+    driver: bridge
+
+volumes:
+  ollama:

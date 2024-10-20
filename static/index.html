@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>それなりPDF検索 Ver 0.5</title>
+    <link rel="stylesheet" href="static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="shortcut icon" href="images/favicon.ico">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <header>
+                <h1><img src="static/images/sorenaripdf.png" alt="それなりPDF検索 Ver 0.4" width="175px"></h1>
+            </header>
+        </div>
+        <div class="container">
+            <div class="tabs">
+                <nav>
+                    <button class="tab-button active" data-tab="search-tab"><i
+                            class="fa-solid fa-magnifying-glass"></i>検索</button>
+                    <button class="tab-button" data-tab="management-tab"><i
+                            class="fa-solid fa-upload"></i>PDFファイル登録</button>
+                    <button class="tab-button" data-tab="howtouse-tab"><i class="fa-solid fa-lightbulb"></i>使い方</button>
+                </nav>
+            </div>
+        </div>
+        <!-- 検索ボックス -->
+        <div class="container">
+            <div id="search-tab" class="tab-content active">
+                <div id="search-container">
+                    <input type="text" id="search-input" placeholder="検索したい文字列を入れてください。">
+                    <button id="search-button"><i class="fa-solid fa-magnifying-glass"></i>検索</button>
+                </div>
+                <div class="container-flex">
+                    <div class="pdf-list-container">
+                        <p class="result">検索結果</p>
+                        <div id="search-pdf-list" class="pdf-list">
+                            <!-- Search result PDF list will be populated here -->
+                        </div>
+                    </div>
+
+                    <div id="pdf-viewer-container">
+                        <textarea id="summary" class="summary"></textarea>
+                        <canvas id="pdf-viewer"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- PDFアップロード・管理 -->
+        <div class="container">
+            <div id="management-tab" class="tab-content">
+                <div>
+                    <form id="upload-form">
+                        <input type="file" id="pdf-file" accept=".pdf" multiple required>
+                        <button type="submit"><i class="fa-solid fa-upload"></i>PDFファイルをアップロード</button>
+                    </form>
+                </div>
+
+                <div>
+                    <div class="pdf-list-container">
+                        <h2>登録済みPDF</h2>
+
+                        <div id="existing-pdf-list" class="pdf-list">
+                            <!-- Existing PDF list will be populated here -->
+                        </div>
+                        <button id="delete-button"><i class="fa-solid fa-trash"></i>選択したPDFファイルをデータベースから削除します</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 当アプリケーションの使い方 -->
+        <div class="container">
+            <div id="howtouse-tab" class="tab-content">
+                <div class="howtouse">
+                    <h2>使い方</h2>
+                    <p class="col">アップロードされたPDFファイル内を文字列で検索し、該当するPDFをリスト表示します。<br>検索結果のPDFはアプリ上で閲覧、ダウンロードできます。</p>
+                    <h3>検索について</h3>
+                    <div>
+                        <div class="col">検索窓に検索したい文字列を入力して「検索」ボタンを押してください。完全一致させたい場合はダブルクオートで囲んでください。例）"行政"</div>
+                        <div class="col">該当するファイルが「検索結果表示エリア」に表示されます。</div>
+                        <div class="col">ファイル名をクリックすると該当ファイルを閲覧できます。また、検索した文字列はハイライトで表示されます。</div>
+                    </div>
+
+                    <h3>PDFファイルの登録と削除</h3>
+                    <div>
+                        <div class="col">「PDFファイル登録」タブを押すとPDFファイル管理画面へ切り替わります。</div>
+                        <div class="col">「ファイルを選択」ボタンを押し、ファイルを選択したら「PDFファイルをアップロード」ボタンを押してください。</div>
+                        <div class="col">PDFファイルは複数選択できます。</div>
+                        <div class="col">ファイル名を削除する場合は「登録済みPDF」の中から該当のファイルにチェックをつけ「選択したPDFファイルをデータベースから削除します」を押してください。
+                        </div>
+                    </div>
+                    <h2>更新履歴</h2>
+                    <div>
+                        <div class="col">2024.08 初版 </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- wrapper -->
+    <div id="navigation" class="active">
+        <button id="prev-page"><i class="fa-solid fa-arrow-left"></i></button>
+        <input type="number" id="page-number" min="1" value="1"> / <span id="total-pages">100</span>
+        <button id="next-page"><i class="fa-solid fa-arrow-right"></i></button>
+        <button id="download-button" disabled><i class="fa-solid fa-download"></i></button>
+    </div>
+    <!-- ローディング時 -->
+    <div id="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div id="loading-overlay-msg">Loading Message</div>
+    </div>
+
+
+    <script src="static/pdf.min.mjs" type="module"></script>
+    <script src="static/script.js" type="module"></script>
+</body>
+
+</html>
