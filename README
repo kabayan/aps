@@ -1,3 +1,5 @@
+# cuda 11.5以降がインストールされている必要があります。
+
 /home/aps/workspace/aps 以下に展開してあるものとします。
 
 cd /home/aps/workspace/aps
