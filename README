@@ -1,0 +1,6 @@
+/home/aps/workspace/aps 以下に展開してあるものとします。
+
+cd /home/aps/workspace/aps
+docker-compose -up -d
+
+http://192.168.1.3:7860/ にアクセスすると利用できます。
